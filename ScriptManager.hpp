@@ -44,7 +44,14 @@ class ScriptManager
 
         void addLibrary(std::function<void(sel::State& state)> library = [](sel::State& state){})
         {
-            mLibraries.push_back(library);
+            if (library)
+            {
+                mLibraries.push_back(library);
+                for (auto itr = mScripts.begin(); itr != mScripts.end(); itr++)
+                {
+                    library(itr->second);
+                }
+            }
         }
 
     private:

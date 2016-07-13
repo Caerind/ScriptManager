@@ -14,11 +14,16 @@ end
 
 testA = function()
     a = A.new()
-    a:set_x(10)
-    a:set_y(20)
-    test(a:x())
-    test(a:y())
+    a:setX(10)
+    a:setY(20)
+    test(a:getX())
+    test(a:getY())
     a:setPosition(30,9)
-    test(a:x())
-    test(a:y())
+    test(a:getX())
+    test(a:getY())
+end
+
+testobject = function()
+    object.setX(123)
+    test(object.getX())
 end
