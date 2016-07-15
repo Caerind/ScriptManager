@@ -9,14 +9,14 @@
 class ScriptManager
 {
     public:
-        ScriptManager() : mScripts() {}
+        ScriptManager() : mScripts(), mPath(""), mLibraries() {}
 
         sel::State& operator[](std::string const& script)
         {
             if (mScripts.find(script) == mScripts.end())
             {
                 mScripts.emplace(script, true);
-                mScripts[script].Load(script);
+                mScripts[script].Load(mPath + script);
                 for (auto& lib : mLibraries)
                 {
                     if (lib)
@@ -60,6 +60,11 @@ class ScriptManager
             }
         }
 
+        void setPath(std::string const& path)
+        {
+            mPath = path;
+        }
+
         void addLibrary(std::function<void(sel::State& state)> library = [](sel::State& state){})
         {
             if (library)
@@ -74,6 +79,7 @@ class ScriptManager
 
     private:
         std::unordered_map<std::string,sel::State> mScripts;
+        std::string mPath;
         std::vector<std::function<void(sel::State& state)>> mLibraries;
 };
 
