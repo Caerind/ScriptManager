@@ -42,6 +42,24 @@ class ScriptManager
             }
         }
 
+        void reload(std::string const& script)
+        {
+            auto itr = mScripts.find(script);
+            if (itr != mScripts.end())
+            {
+                mScripts.erase(itr);
+                mScripts.emplace(script, true);
+                mScripts[script].Load(script);
+                for (auto& lib : mLibraries)
+                {
+                    if (lib)
+                    {
+                        lib(mScripts[script]);
+                    }
+                }
+            }
+        }
+
         void addLibrary(std::function<void(sel::State& state)> library = [](sel::State& state){})
         {
             if (library)
